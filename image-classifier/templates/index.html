@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What's in this image?</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="wrap" data-max-mb="{{ max_mb }}">
+    <header>
+      <h1>What's in this image?</h1>
+      <p class="lede">Upload a photo or paste a link. A deep learning model running on your computer names what it sees.</p>
+    </header>
+
+    <section class="panel" aria-label="Choose an image">
+      <div class="tabs" role="tablist">
+        <button class="tab active" role="tab" data-tab="upload" aria-selected="true">Upload a file</button>
+        <button class="tab" role="tab" data-tab="url" aria-selected="false">Use an image URL</button>
+      </div>
+
+      <div id="tab-upload" class="tabpane">
+        <label id="dropzone" class="dropzone" for="file-input" tabindex="0">
+          <strong>Drop an image here</strong>
+          <span>or click to browse. JPG, PNG, WEBP, GIF, BMP up to {{ max_mb }} MB.</span>
+          <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/bmp" hidden>
+        </label>
+      </div>
+
+      <div id="tab-url" class="tabpane" hidden>
+        <div class="url-row">
+          <input id="url-input" type="url" placeholder="https://example.com/photo.jpg" aria-label="Image URL" autocomplete="off">
+          <button id="url-btn" class="btn" type="button">Classify image</button>
+        </div>
+      </div>
+
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <section id="loading" class="loading" hidden aria-live="polite">
+      <div class="spinner"></div><span>Classifying image...</span>
+    </section>
+
+    <section id="result" class="result" hidden>
+      <figure><img id="preview" alt="Image being classified"></figure>
+      <div class="details">
+        <p id="status" class="status"></p>
+        <h2 id="label"></h2>
+        <div id="confidence-block">
+          <div class="conf-head"><span>Confidence</span><strong id="confidence"></strong></div>
+          <div class="bar"><div id="conf-fill" class="fill"></div></div>
+        </div>
+        <p id="explanation" class="explanation"></p>
+        <h3>Other possibilities</h3>
+        <ul id="others" class="others"></ul>
+        <button id="reset" class="btn ghost" type="button">Classify another image</button>
+      </div>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
